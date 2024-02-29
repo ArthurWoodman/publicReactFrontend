@@ -86,7 +86,7 @@ export async function action({request, params}) {
 
     if (!response.ok) {
         throw new Response(
-            JSON.stringify({message: 'Could not save an clothe!'}),
+            JSON.stringify({message: 'Could not save a clothe!'}),
             { status: 500 }
         );
     } else {

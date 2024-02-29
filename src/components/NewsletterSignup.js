@@ -13,9 +13,6 @@ function NewsletterSignup() {
     }, [data, state]);
 
     return (
-        // with fetcher.Form we do not move to another route when a button clicked
-        // So useFetcher is the tool you should use if you wanna trigger a loader or an action
-        //  without actually loading the page, the route to which this action or loader belongs.
         <fetcher.Form method="post" action='/newsletter' className={classes.newsletter}>
             <input
                 type="email"

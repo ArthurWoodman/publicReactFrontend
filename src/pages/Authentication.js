@@ -41,10 +41,10 @@ export async function action({request}) {
     const responseData = await response.json();
     const token = responseData.token;
 
-    localStorage.setItem('spa_token', token);
+    localStorage.setItem('shop_token', token);
     const expiration = new Date();
     expiration.setHours(expiration.getHours() + 1);
-    localStorage.setItem('spa_token_expiration', expiration.toISOString());
+    localStorage.setItem('shop_token_expiration', expiration.toISOString());
 
     return redirect('/');
 }

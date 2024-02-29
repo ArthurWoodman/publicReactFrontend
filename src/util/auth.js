@@ -1,7 +1,7 @@
 import {redirect} from "react-router-dom";
 
 export function getAuthToken() {
-    const token = localStorage.getItem('spa_token');
+    const token = localStorage.getItem('shop_token');
     const tokenDuration = getTokenDuration();
 
     if (!token) {
@@ -27,7 +27,7 @@ export function checkAuthLoader() {
 
 export function getTokenDuration()
 {
-    const storedExpirationDate = localStorage.getItem('spa_token_expiration');
+    const storedExpirationDate = localStorage.getItem('shop_token_expiration');
     const expirationDate = new Date(storedExpirationDate);
     const now = new Date();
     const duration = expirationDate.getTime() - now.getTime();
