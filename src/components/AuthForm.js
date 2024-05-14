@@ -1,5 +1,5 @@
 import {Form, Link, useSearchParams, useActionData, useNavigation} from 'react-router-dom';
-
+import Label from './UI/Input';
 import classes from './AuthForm.module.css';
 
 function AuthForm() {
@@ -20,14 +20,8 @@ function AuthForm() {
                     </ul>
                 }
                 {data && data.message && <p>{data.message}</p>}
-                <p>
-                    <label htmlFor="email">Email</label>
-                    <input id="email" type="email" name="email" required />
-                </p>
-                <p>
-                    <label htmlFor="password">Password</label>
-                    <input id="password" type="password" name="password" required />
-                </p>
+                <Label label='Email' id='email' type="email" applyDefaultClasses={false}/>
+                <Label label='Password' id='password' type="password" applyDefaultClasses={false}/>
                 <div className={classes.actions}>
                     <Link to={`?mode=${ isLogin ? 'signup' : 'login'}`}>
                         {isLogin ? 'Create new user' : 'Login'}

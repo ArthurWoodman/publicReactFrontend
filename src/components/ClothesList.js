@@ -2,14 +2,15 @@ import classes from './ClothesList.module.css';
 import { Link } from "react-router-dom";
 import {currencyFormatter} from "../util/formatter";
 import Button from "./UI/Button";
-import {useContext} from "react";
-import CartContext from "../store/CartContext";
+import { useDispatch } from "react-redux";
+import { cartActions } from "../reduxStore/CartSlice";
 
 function ClothesList({ clothes }) {
-    const cartCtx = useContext(CartContext);
+    const dispatch = useDispatch();
+
     function handleAddClotheToCart(event, clothe) {
         event.preventDefault();
-        cartCtx.addItem(clothe);
+        dispatch(cartActions.addItem(clothe));
     }
 
   return (

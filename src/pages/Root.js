@@ -1,5 +1,5 @@
 import MainNavigation from "../components/MainNavigation";
-import {Outlet, useNavigation, useSubmit} from "react-router-dom";
+import {Outlet, useNavigation} from "react-router-dom";
 
 function RootLayout() {
     const navigation = useNavigation();

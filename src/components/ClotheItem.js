@@ -2,16 +2,16 @@ import classes from './ClotheItem.module.css';
 import {Link, useRouteLoaderData, useSubmit} from "react-router-dom";
 import {currencyFormatter} from "../util/formatter";
 import Button from "./UI/Button";
-import {useContext} from "react";
-import CartContext from "../store/CartContext";
+import { useDispatch } from "react-redux";
+import {cartActions} from "../reduxStore/CartSlice";
 
 function ClotheItem({clothe}) {
     const token = useRouteLoaderData('root');
     const submit = useSubmit();
-    const cartCtx = useContext(CartContext);
+    const dispatch = useDispatch();
 
     function handleAddClotheToCart(clothe) {
-        cartCtx.addItem(clothe);
+        dispatch(cartActions.addItem(clothe));
     }
 
     function startDeleteHandler() {

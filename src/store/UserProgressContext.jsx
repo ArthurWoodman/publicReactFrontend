@@ -1,3 +1,4 @@
+// this store is deprecated since Redux has been implemented
 import {createContext, useState} from "react";
 
 

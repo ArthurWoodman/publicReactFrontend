@@ -1,4 +1,4 @@
-import {Await, defer, redirect, useParams} from "react-router-dom";
+import {Await, defer, redirect} from "react-router-dom";
 import ClotheItem from "../components/ClotheItem";
 import { useRouteLoaderData } from "react-router-dom";
 import ClothesList from "../components/ClothesList";
@@ -77,7 +77,7 @@ export async function action({ params, request }) {
 
     if (!response.ok) {
         throw new Response(
-            JSON.stringify({message: 'Could not delete an clothe!'}),
+            JSON.stringify({message: 'Could not delete a clothe!'}),
             { status: 500 }
         );
     } else {

@@ -11,11 +11,11 @@ import NewsletterPage, {action as newsletterAction} from './pages/Newsletter';
 import AuthenticationPage, {action as authAction} from "./pages/Authentication";
 import { action as logoutAction } from './pages/Logout';
 import {checkAuthLoader, getAuthToken} from './util/auth';
-import {lazy, Suspense} from "react";
-import { CartContextProvider } from "./store/CartContext";
-import {UserProgressContextProvider} from "./store/UserProgressContext";
+import {lazy} from "react";
 import Cart from "./components/Cart";
 import Checkout from "./components/Checkoout";
+import { Provider } from "react-redux";
+import store from "./reduxStore/Store";
 
 const ClothesPage = lazy(() => import('./pages/Clothes'));
 
@@ -39,12 +39,7 @@ const router = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: (
-                            <Suspense fallback={<p>Loading...</p>}>
-                                <ClothesPage />
-                            </Suspense>
-                        )
-                        ,
+                        element: <ClothesPage />,
                         loader: () => import('./pages/Clothes').then(module => module.loader()),
                     },
                     {
@@ -88,13 +83,11 @@ const router = createBrowserRouter([
 
 function App() {
     return (
-            <UserProgressContextProvider>
-                <CartContextProvider>
-                    <RouterProvider router={router} />
-                    <Cart />
-                    <Checkout />
-                </CartContextProvider>
-            </UserProgressContextProvider>
+            <Provider store={store}>
+                <RouterProvider router={router} />
+                <Cart />
+                <Checkout />
+            </Provider>
         );
 }
 

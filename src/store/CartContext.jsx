@@ -1,3 +1,4 @@
+// this store is deprecated since Redux has been implemented
 import { createContext, useReducer } from "react";
 
 const CartContext = createContext({
@@ -30,22 +31,22 @@ function cartReducer(state, action) {
     }
 
     if (action.type === 'REMOVE_ITEM') {
-        const existingCartItemIndex = state.items.findIndex(
-            (item) => item.id === action.item.id
-        );
-
-        const existingCartItem = state.items[existingCartItemIndex];
-
-        if (existingCartItem.quantity === 1) {
-            updatedItems.splice(existingCartItemIndex, 1);
-        } else {
-            const updatedItem = {
-                ...existingCartItem,
-                quantity: existingCartItem.quantity - 1
-            };
-
-            updatedItems[existingCartItemIndex] = updatedItem;
-        }
+        // const existingCartItemIndex = state.items.findIndex(
+        //     (item) => item.id === action.item.id
+        // );
+        //
+        // const existingCartItem = state.items[existingCartItemIndex];
+        //
+        // if (existingCartItem.quantity === 1) {
+        //     updatedItems.splice(existingCartItemIndex, 1);
+        // } else {
+        //     const updatedItem = {
+        //         ...existingCartItem,
+        //         quantity: existingCartItem.quantity - 1
+        //     };
+        //
+        //     updatedItems[existingCartItemIndex] = updatedItem;
+        // }
 
         return { ...state, items: updatedItems };
     }
@@ -57,8 +58,15 @@ function cartReducer(state, action) {
     return state;
 }
 
+//init: The initializer function that should return the initial state. If it’s not specified,
+// the initial state is set to initialArg. Otherwise, the initial state is set to the result of calling init(initialArg).
+function initInitialState(arg)
+{
+    return arg;
+}
+
 export function CartContextProvider({ children }) {
-    const [cart, dispatchCartAction] = useReducer(cartReducer, { items: [] });
+    const [cart, dispatchCartAction] = useReducer(cartReducer, { items: [] }, initInitialState);
 
     function addItem(item) {
         dispatchCartAction({ type: 'ADD_ITEM', item: item });

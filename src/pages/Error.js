@@ -2,14 +2,14 @@ import PageContent from "./PageContent";
 import { useRouteError } from "react-router-dom";
 import MainNavigation from "../components/MainNavigation";
 
-function ErrorPage({title = '', message = '', isRouterError = true}) {
+function ErrorPage({title = '', message = ''}) {
     const error = useRouteError();
 
     if (title.length === 0) {
         if (error.status === 404) {
             title = 'Not found!';
         } else {
-            title = 'An error occured!';
+            title = 'An error occurred!';
         }
     }
 

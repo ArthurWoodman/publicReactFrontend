@@ -3,21 +3,20 @@ import {Form, NavLink, useRouteLoaderData} from 'react-router-dom';
 import classes from './MainNavigation.module.css';
 import NewsletterSignup from './NewsletterSignup';
 import Button from "./UI/Button";
-import {useContext} from "react";
-import CartContext from "../store/CartContext";
-import UserProgressContext from "../store/UserProgressContext";
+import { useSelector, useDispatch } from "react-redux";
+import { userProgressActions } from "../reduxStore/UserProgressSlice";
 
 function MainNavigation() {
     const token = useRouteLoaderData('root');
-    const cartCtx = useContext(CartContext);
-    const userProgressCtx = useContext(UserProgressContext);
-    const totalCartItems = cartCtx.items.reduce(
+    const cartItems = useSelector(state => state.cart.items);
+    const dispatch = useDispatch();
+    const totalCartItems = cartItems.reduce(
         (totalNumberOfItems, item) => totalNumberOfItems + item.quantity,
         0
     );
 
     function handleShowCart() {
-        userProgressCtx.showCart();
+        dispatch(userProgressActions.showCart());
     }
 
     return (

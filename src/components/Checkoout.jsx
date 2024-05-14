@@ -1,13 +1,13 @@
 import Modal from "./UI/Modal";
-import {useContext} from "react";
-import cartContext from "../store/CartContext";
 import {currencyFormatter} from "../util/formatter";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
 import classes from "./Checkout.module.css";
-import UserProgressContext from "../store/UserProgressContext";
+import { userProgressActions } from "../reduxStore/UserProgressSlice";
 import useHttp from "../hooks/useHttp";
 import DesignatedError from "./DesignatedError";
+import { useDispatch, useSelector } from "react-redux";
+import { cartActions } from "../reduxStore/CartSlice";
 
 const requestConfig = {
     method: 'POST',
@@ -17,20 +17,21 @@ const requestConfig = {
 };
 export default function Checkout()
 {
-    const cartCtx = useContext(cartContext);
-    const userProgressCtx = useContext(UserProgressContext);
-    const cartTotal = cartCtx.items.reduce((prevSummary, item) => prevSummary + item.quantity * item.price, 0);
+    const dispatch = useDispatch();
+    const cartItems = useSelector(state => state.cart.items);
+    const userProgressProgress = useSelector(state => state.userProgress.progress);
+    const cartTotal = cartItems.reduce((prevSummary, item) => prevSummary + item.quantity * item.price, 0);
 
     const { data, isLoading, error, resetError, sendRequest, clearData } = useHttp('http://localhost:8080/orders', requestConfig);
     function handleClose() {
-        userProgressCtx.hideCheckout();
+        dispatch(userProgressActions.hideCheckout());
         resetError(null);
     }
 
     function handleFinish()
     {
-        userProgressCtx.hideCheckout();
-        cartCtx.clearCart();
+        dispatch(userProgressActions.hideCheckout());
+        dispatch(cartActions.clearCart());
         clearData();
     }
 
@@ -42,14 +43,14 @@ export default function Checkout()
 
         sendRequest(JSON.stringify({
             order: {
-                items: cartCtx.items,
+                items: cartItems,
                 customer: customerData
             }
         }));
     }
 
     if (data && !error) {
-        return <Modal open={userProgressCtx.progress === 'checkout' } onClose={handleFinish}>
+        return <Modal open={userProgressProgress === 'checkout' } onClose={handleFinish}>
             <h2>Success!</h2>
             <p>Your order was submitted successfully.</p>
             <p className='modal-actions'>
@@ -58,7 +59,7 @@ export default function Checkout()
         </Modal>
     }
 
-    return <Modal open={userProgressCtx.progress === 'checkout' } onClose={handleClose}>
+    return <Modal open={userProgressProgress === 'checkout' } onClose={handleClose}>
         <form onSubmit={handleSubmit}>
             <h2>Checkout</h2>
             <p>Total Amount: {currencyFormatter.format(cartTotal)}</p>
@@ -82,7 +83,6 @@ export default function Checkout()
                         <Button>Submit Order</Button>
                     </>
                 }
-
             </p>
         </form>
     </Modal>;
